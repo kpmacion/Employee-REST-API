@@ -29,13 +29,13 @@ REST API written in Java Spring supporting basic HTTP methods. Embedded database
 ![Employee-REST-API](https://github.com/kpmacion/Employee-REST-API/blob/master/images/company_add.jpg)
 
 ## HTTP PUT 
-* #### /api/employees/<employee_id>/companies - modify company in the selected employee
+* #### /api/employees/<employee_id>/companies/<company_id> - modify company in the selected employee
 ![Employee-REST-API](https://github.com/kpmacion/Employee-REST-API/blob/master/images/employee_modify_company.jpg)
 
 * #### /api/employees/<employee_id> - modify the selected employee
 ![Employee-REST-API](https://github.com/kpmacion/Employee-REST-API/blob/master/images/employee_modify.jpg)
 
-* #### /api/company/<company_id> - modify the selected company
+* #### /api/companies/<company_id> - modify the selected company
 ![Employee-REST-API](https://github.com/kpmacion/Employee-REST-API/blob/master/images/company_modify.jpg)
 
 ## HTTP DELETE
@@ -45,5 +45,5 @@ REST API written in Java Spring supporting basic HTTP methods. Embedded database
 * #### /api/employees/<employee_id> - delete the selected employee
 ![Employee-REST-API](https://github.com/kpmacion/Employee-REST-API/blob/master/images/employee_delete.jpg)
 
-* #### /api/company/<company_id> - delete the selected company
+* #### /api/companies/<company_id> - delete the selected company
 ![Employee-REST-API](https://github.com/kpmacion/Employee-REST-API/blob/master/images/company_delete.jpg)
