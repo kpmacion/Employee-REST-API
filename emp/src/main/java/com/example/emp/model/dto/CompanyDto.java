@@ -1,5 +1,8 @@
 package com.example.emp.model.dto;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class CompanyDto
 {
     public String company_name;
@@ -16,4 +19,6 @@ public class CompanyDto
         this.company_street_number = company_street_number;
         this.company_zip_code = company_zip_code;
     }
+
+    public CompanyDto() {}
 }

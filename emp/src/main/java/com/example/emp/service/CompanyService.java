@@ -73,7 +73,7 @@ public class CompanyService
         company.setCompany_street_number(companyDto.company_street_number);
         company.setCompany_zip_code(companyDto.company_zip_code);
 
-        session.save(company);
+        session.update(company);
 
         session.getTransaction().commit();
         session.close();
@@ -90,6 +90,7 @@ public class CompanyService
         query.setParameter("company_id", company_id);
 
         Company company = (Company) query.getSingleResult();
+
         session.delete(company);
 
         session.getTransaction().commit();

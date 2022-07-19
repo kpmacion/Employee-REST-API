@@ -1,6 +1,7 @@
 package com.example.emp.controller;
 
 import com.example.emp.model.Company;
+import com.example.emp.model.CompanyInfo;
 import com.example.emp.model.dto.CompanyDto;
 import com.example.emp.service.CompanyService;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +11,13 @@ import java.util.List;
 @RequestMapping(value = "/api/companies")
 public class CompanyController
 {
-    private static CompanyService companyService = new CompanyService();
+    private static final CompanyService companyService = new CompanyService();
+
+    @RequestMapping(method = RequestMethod.OPTIONS)
+    public CompanyInfo getCompanyInfo()
+    {
+        return new CompanyInfo();
+    }
 
     @GetMapping
     public List<Company> getCompanies()
@@ -29,7 +36,6 @@ public class CompanyController
     {
         return companyService.addCompany(companyDto);
     }
-
 
     @PutMapping(value = "/{company_id}")
     public Company modifyCompany(@PathVariable long company_id, @RequestBody CompanyDto companyDto)
