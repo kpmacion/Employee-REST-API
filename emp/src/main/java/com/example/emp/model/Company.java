@@ -1,22 +1,27 @@
 package com.example.emp.model;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.annotations.GenericGenerator;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Embeddable
 public class Company
 {
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "company")
+    @GenericGenerator(name = "company", strategy = "increment")
     private long company_id;
     private String company_name;
     private String company_city;
     private String company_street;
     private String company_street_number;
     private String company_zip_code;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "employee_company", cascade = CascadeType.DETACH)
+    @JsonBackReference
+    private List<Employee> employees = new ArrayList<>();
 
     public Company(String company_name, String company_city, String company_street, String company_street_number, String company_zip_code)
     {
@@ -87,5 +92,19 @@ public class Company
     public void setCompany_zip_code(String company_zip_code)
     {
         this.company_zip_code = company_zip_code;
+    }
+
+    public List<Employee> getEmployees()
+    {
+        return employees;
+    }
+
+    public void addEmployees(Employee employee)
+    {
+        if(!this.employees.contains(employee))
+        {
+            this.employees.add(employee);
+            employee.setEmployee_company(this);
+        }
     }
 }

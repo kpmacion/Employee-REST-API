@@ -1,18 +1,21 @@
 package com.example.emp.model;
 
-import com.example.emp.model.dto.CompanyDto;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
 public class Employee
 {
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "employee")
+    @GenericGenerator(name = "employee", strategy = "increment")
     private long employee_id;
     private String employee_name;
     private String employee_surname;
-    @Embedded
-    private CompanyDto employee_company;
+    @ManyToOne
+    @JsonManagedReference
+    private Company employee_company;
 
     public Employee(String employee_name, String employee_surname)
     {
@@ -52,13 +55,20 @@ public class Employee
         this.employee_surname = employee_surname;
     }
 
-    public CompanyDto getEmployee_company()
+    public Company getEmployee_company()
     {
         return employee_company;
     }
 
-    public void setEmployee_company(CompanyDto employee_company)
+    public void setEmployee_company(Company company)
     {
-        this.employee_company = employee_company;
+        if(this.employee_company != company)
+        {
+            this.employee_company = company;
+            if(company != null)
+            {
+                company.addEmployees(this);
+            }
+        }
     }
 }

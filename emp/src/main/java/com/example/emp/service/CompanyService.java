@@ -9,6 +9,22 @@ import java.util.List;
 
 public class CompanyService
 {
+    public boolean companyExists(long company_id)
+    {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        Query query = session.createQuery("from Company where company_id =:company_id");
+        query.setParameter("company_id", company_id);
+
+        List companies = query.getResultList();
+
+        session.getTransaction().commit();
+        session.close();
+
+        return !companies.isEmpty();
+    }
+
     public List<Company> getCompanies()
     {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -91,6 +107,7 @@ public class CompanyService
 
         Company company = (Company) query.getSingleResult();
 
+        company.getEmployees().forEach((employee -> employee.setEmployee_company(null)));
         session.delete(company);
 
         session.getTransaction().commit();

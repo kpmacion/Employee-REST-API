@@ -3,7 +3,6 @@ package com.example.emp.service;
 import com.example.emp.HibernateUtil;
 import com.example.emp.model.Company;
 import com.example.emp.model.Employee;
-import com.example.emp.model.dto.CompanyDto;
 import com.example.emp.model.dto.EmployeeDto;
 import org.hibernate.Session;
 import javax.persistence.Query;
@@ -11,6 +10,22 @@ import java.util.List;
 
 public class EmployeeService
 {
+    public boolean employeeExists(long employee_id)
+    {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        Query query = session.createQuery("from Employee where employee_id=:employee_id");
+        query.setParameter("employee_id", employee_id);
+
+        List employees = query.getResultList();
+
+        session.getTransaction().commit();
+        session.close();
+
+        return !employees.isEmpty();
+    }
+
     public List<Employee> getEmployees()
     {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -85,14 +100,7 @@ public class EmployeeService
 
         Employee employee = getEmployee(employee_id);
         Company company = new CompanyService().getCompany(company_id);
-        CompanyDto companyDto = new CompanyDto(
-                company.getCompany_name(),
-                company.getCompany_city(),
-                company.getCompany_street(),
-                company.getCompany_street_number(),
-                company.getCompany_zip_code()
-        );
-        employee.setEmployee_company(companyDto);
+        employee.setEmployee_company(company);
 
         session.update(employee);
 
